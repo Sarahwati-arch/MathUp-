@@ -5,12 +5,11 @@ const QuizScreen = ({ level, questionIndex, onAnswer, onGameOver }) => {
   const [userAnswer, setUserAnswer] = useState('');
 
   useEffect(() => {
-    // Fetch question from Flask backend
     fetch(`http://localhost:5000/question?level=${level}&index=${questionIndex}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          onGameOver(); // no more questions in this level
+          onGameOver();
         } else {
           setQuestionData(data);
           setUserAnswer('');
