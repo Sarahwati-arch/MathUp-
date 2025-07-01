@@ -6,6 +6,11 @@ from questions import questions_by_level
 app = Flask(__name__)
 CORS(app)
 
+@app.route("/")
+def home():
+    return "Flask server is running! Available endpoints: /question and /answer"
+
+
 @app.route("/question", methods=["GET"])
 def get_question():
     level = request.args.get("level")
