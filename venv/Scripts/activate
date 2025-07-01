@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\USER\Documents\VICTORIA SEMESTER 6\MathUp-\venv"
+VIRTUAL_ENV="C:\PROJECT BOOTCAMP\MathUp-\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
