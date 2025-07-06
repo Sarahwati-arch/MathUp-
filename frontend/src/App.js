@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import WelcomeScreen from './components/WelcomeScreen';
 import QuizScreen from './components/QuizScreen';
+import GameOverScreen from './components/GameOverScreen';
 
 function App() {
-  const [started, setStarted] = useState(false);
+  const [gameState, setGameState] = useState('welcome'); // 'welcome', 'playing', 'gameover'
   const [level, setLevel] = useState(1);
   const [questionIndex, setQuestionIndex] = useState(0);
+  const [finalScore, setFinalScore] = useState(0);
+  const [highestLevel, setHighestLevel] = useState(1);
 
   const handleStart = () => {
-    setStarted(true);
+    setGameState('playing');
     setLevel(1);
     setQuestionIndex(0);
+    setFinalScore(0);
+    setHighestLevel(1);
   };
 
   const handleAnswer = () => {
@@ -23,20 +28,28 @@ function App() {
     }
   };
 
-  const handleGameOver = (finalScore, highestLevel) => {
-    alert(`Game Over!\nFinal score: ${finalScore}\nHighest level reached: ${highestLevel}`);
-    setStarted(false);
+  const handleGameOver = (score, levelReached) => {
+    setFinalScore(score);
+    setHighestLevel(levelReached);
+    setGameState('gameover');
   };
 
   return (
     <div>
-      {!started && <WelcomeScreen onStart={handleStart} />}
-      {started && (
+      {gameState === 'welcome' && <WelcomeScreen onStart={handleStart} />}
+      {gameState === 'playing' && (
         <QuizScreen
           level={level}
           questionIndex={questionIndex}
           onAnswer={handleAnswer}
           onGameOver={handleGameOver}
+        />
+      )}
+      {gameState === 'gameover' && (
+        <GameOverScreen
+          finalScore={finalScore}
+          highestLevel={highestLevel}
+          onRestart={handleStart}
         />
       )}
     </div>
