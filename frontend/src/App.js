@@ -3,6 +3,26 @@ import WelcomeScreen from './components/WelcomeScreen';
 import QuizScreen from './components/QuizScreen';
 import GameOverScreen from './components/GameOverScreen';
 
+
+const levelMap = {
+  1: "pre-k",
+  2: "kg",
+  3: "grade-1",
+  4: "grade-2",
+  5: "grade-3",
+  6: "grade-4",
+  7: "grade-5",
+  8: "grade-6",
+  9: "grade-7",
+  10: "grade-8",
+  11: "grade-9",
+  12: "grade-10",
+  13: "grade-11",
+  14: "grade-12",
+  15: "college"
+};
+
+
 function App() {
   const [gameState, setGameState] = useState('welcome');  // 'welcome', 'playing', 'gameover'
   const [level, setLevel] = useState(1);
@@ -10,29 +30,65 @@ function App() {
   const [finalScore, setFinalScore] = useState(0);
   const [highestLevel, setHighestLevel] = useState('');
 
+
+  const [correctCount, setCorrectCount] = useState(0);
+  
+
   const handleStart = () => {
     setGameState('playing');
     setLevel(1);
     setQuestionIndex(0);
+    setCorrectCount(0); // ⬅️ Reset skor benar
     setFinalScore(0);
     setHighestLevel('');
   };
 
+
+  const TOTAL_QUESTIONS = 45;
+
   const handleAnswer = () => {
+    const newCorrectCount = correctCount + 1;
+    setCorrectCount(newCorrectCount);
+
     const levelQuestionCount = getQuestionsPerLevel(level);
+
+    // ✅ Cek apakah ini soal terakhir dari soal ke-45
+    const currentQuestionNumber = getTotalQuestionsUntil(level - 1) + questionIndex + 1;
+
+    if (currentQuestionNumber >= TOTAL_QUESTIONS) {
+      // Semua soal selesai
+      setFinalScore(parseFloat((newCorrectCount * 2.2).toFixed(1)));
+      setHighestLevel(levelMap[level]);
+      setGameState('congrats');
+      return;
+    }
+
     if (questionIndex + 1 < levelQuestionCount) {
-      setQuestionIndex(questionIndex + 1);  // move to next question in same level
+      setQuestionIndex(questionIndex + 1);
     } else {
-      setLevel(level + 1);                  // next level
-      setQuestionIndex(0);                  // start from first question in new level
+      setLevel(level + 1);
+      setQuestionIndex(0);
     }
   };
 
-  const handleGameOver = (score, levelReached) => {
-    setFinalScore(score);
-    setHighestLevel(levelReached);
-    setGameState('gameover');
-  };
+  function getTotalQuestionsUntil(level) {
+  let total = 0;
+  for (let i = 1; i <= level; i++) {
+    total += getQuestionsPerLevel(i);
+  }
+  return total;
+}
+
+
+const handleGameOver = (scoreFromBackend, levelReached) => {
+  const calculatedScore = parseFloat((correctCount * 2.2).toFixed(1));
+  setFinalScore(calculatedScore);
+  setHighestLevel(levelMap[levelReached] || `Level ${levelReached}`);
+  setGameState('gameover');
+};
+
+
+
 
   return (
     <div>
@@ -52,6 +108,18 @@ function App() {
           onRestart={() => setGameState('welcome')}
         />
       )}
+
+      {gameState === 'congrats' && (
+        <div style={{ textAlign: 'center', marginTop: '10%' }}>
+          <h2>🎉 Congratulations! 🎉</h2>
+          <p>You completed all questions!</p>
+          <p>Final Score: <strong>{finalScore}</strong></p>
+          <p>Highest Level: <strong>{highestLevel}</strong></p>
+          <button onClick={handleStart}>Play Again</button>
+        </div> // ✅ ini ditutup
+      )}
+
+
     </div>
   );
 }

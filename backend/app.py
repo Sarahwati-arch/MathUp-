@@ -52,10 +52,11 @@ def check_answer():
     level = level_map.get(level_num)
 
     index = int(data.get("index"))
-    user_answer = data.get("answer").strip()
+    user_answer = data.get("answer")
 
     correct_answer = questions_by_level[level][index]["answer"]
-    is_correct = user_answer == correct_answer
+    is_correct = float(user_answer) == float(correct_answer)
+
 
     if is_correct:
         return jsonify({"result": "correct"})
