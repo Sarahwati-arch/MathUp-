@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-
 const levelNames = {
   1: "pre-k",
   2: "kg",
@@ -19,9 +18,8 @@ const levelNames = {
   15: "college",
 };
 
-
 const QuizScreen = ({ level, questionIndex, onAnswer, onGameOver, initialQuestion }) => {
-  const [questionData, setQuestionData] = useState(initialQuestion || null);  // ✅ use initialQuestion if available
+  const [questionData, setQuestionData] = useState(initialQuestion || null);
   const [userAnswer, setUserAnswer] = useState('');
 
   useEffect(() => {
@@ -47,43 +45,39 @@ const QuizScreen = ({ level, questionIndex, onAnswer, onGameOver, initialQuestio
           onGameOver(0, level);
         }
       });
-  }, [level, onGameOver, questionIndex]); // ❗ INI FIX-nya
+  }, [level, questionIndex, onGameOver]);
 
+  const handleSubmit = () => {
+    if (userAnswer === '') {
+      alert('Please enter your answer.');
+      return;
+    }
 
-  
-const handleSubmit = () => {
-  console.log('Submit clicked!');
-  if (userAnswer === '') {
-    alert('Please enter your answer.');
-    return;
-  }
+    const numericAnswer = parseFloat(userAnswer);
+    if (isNaN(numericAnswer)) {
+      alert('Please enter a valid number.');
+      return;
+    }
 
-  const numericAnswer = parseFloat(userAnswer);
-  if (isNaN(numericAnswer)) {
-    alert('Please enter a valid number.');
-    return;
-  }
-
-  fetch('http://localhost:5000/answer', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      level,
-      index: questionIndex,
-      answer: numericAnswer,
-    }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.result === 'correct') {
-        onAnswer();
-      } else {
-        onGameOver(data.finalScore, data.highestLevel);
-      }
+    fetch('http://localhost:5000/answer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        level,
+        index: questionIndex,
+        answer: numericAnswer,
+      }),
     })
-    .catch((err) => console.error('Error submitting answer:', err));
-};
-
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result === 'correct') {
+          onAnswer();
+        } else {
+          onGameOver(data.finalScore, data.highestLevel);
+        }
+      })
+      .catch((err) => console.error('Error submitting answer:', err));
+  };
 
   if (!questionData) return <div style={styles.loading}>Loading question...</div>;
 
@@ -92,6 +86,15 @@ const handleSubmit = () => {
       <h2>Level: {levelNames[level]}</h2>
       <h3>Question {questionData.questionNumber}:</h3>
       <p>{questionData.question}</p>
+
+      {questionData.image && (
+        <img
+          src={`http://localhost:5000${questionData.image}`}
+          alt="Question"
+          style={styles.image}
+        />
+      )}
+
       <input
         type="number"
         value={userAnswer}
@@ -99,17 +102,37 @@ const handleSubmit = () => {
         style={styles.input}
         placeholder="Your answer..."
       />
-
       <button style={styles.button} onClick={handleSubmit}>Submit</button>
     </div>
   );
 };
 
 const styles = {
-  container: { textAlign: 'center', marginTop: '10%' },
-  input: { fontSize: '1rem', padding: '8px', width: '200px', marginRight: '10px' },
-  button: { fontSize: '1rem', padding: '8px 16px', cursor: 'pointer' },
-  loading: { textAlign: 'center', marginTop: '20%', fontSize: '1.5rem' },
+  container: {
+    textAlign: 'center',
+    marginTop: '10%',
+  },
+  input: {
+    fontSize: '1rem',
+    padding: '8px',
+    width: '200px',
+    marginRight: '10px',
+  },
+  button: {
+    fontSize: '1rem',
+    padding: '8px 16px',
+    cursor: 'pointer',
+  },
+  loading: {
+    textAlign: 'center',
+    marginTop: '20%',
+    fontSize: '1.5rem',
+  },
+  image: {
+    maxWidth: '300px',
+    margin: '20px auto',
+    display: 'block',
+  },
 };
 
 export default QuizScreen;

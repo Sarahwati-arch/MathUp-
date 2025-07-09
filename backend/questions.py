@@ -1,24 +1,75 @@
 questions_by_level = {
     "pre-k": [
-        {"question": "1 + 1", "answer": "2"},
+        {
+            "question": "How many gorillas are there?",
+            "answer": "2",
+            "image": "/static/img/1level1.png"
+        }
     ],
     "kg": [
-        {"question": "5 - 3", "answer": "2"},
+        {
+            "question": "How many dinosaurs are there?",
+            "answer": "5",
+            "image": "/static/img/1level2.png"
+        },
     ],
     "grade-1": [
-        {"question": "3 + 4", "answer": "7"},
+        {
+            "question": "Fill in the missing number",
+            "answer": "3",
+            "image": "/static/img/1level3.png"
+        },
     ],
     "grade-2": [
-        {"question": "6 - 1", "answer": "5"},
-        {"question": "2 + 3", "answer": "5"},
+        {
+            "question": "How many cookies are there?",
+            "answer": "4",
+            "image": "/static/img/1level4.png"
+        },
+        {
+            "question": "How do you write 'six hundred thirty-seven' using digits?",
+            "answer": "637"
+            # no image provided
+        },
     ],
     "grade-3": [
-        {"question": "4 + 4", "answer": "8"},
-        {"question": "7 - 2", "answer": "5"},
+        {
+            "question": "What is 8000+100+60+9?",
+            "answer": "8169"
+        },
+        {
+            "question": "Add.",
+            "answer": "999",
+            "image": "/static/img/2level5.png"
+        },
     ],
     "grade-4": [
-        {"question": "5 + 5", "answer": "10"},
-        {"question": "9 - 3", "answer": "6"},
+        {
+            "question": "Fill in the missing number",
+            "answer": "3",
+            "image": "/static/img/1level3.png"
+        },
+        {
+            "question": "Fill in the missing number",
+            "answer": "3",
+            "image": "/static/img/1level6.png"
+        },
     ],
-    # and so on...
+    "grade-5": [
+        {
+            "question": "Fill in the missing number",
+            "answer": "3",
+            "image": "/static/img/1level3.png"
+        },
+        {
+            "question": "Fill in the missing number",
+            "answer": "3",
+            "image": "/static/img/1level3.png"
+        },
+        {
+            "question": "Fill in the missing number",
+            "answer": "3",
+            "image": "/static/img/1level3.png"
+        },
+    ],
 }
