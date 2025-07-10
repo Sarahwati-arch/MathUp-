@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.question-image {
+  max-width: 90%;
+  height: auto;
+  margin-bottom: 20px;
+}
+

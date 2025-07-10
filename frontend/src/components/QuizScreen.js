@@ -34,6 +34,7 @@ const QuizScreen = ({ level, questionIndex, onAnswer, onGameOver, initialQuestio
         return res.json();
       })
       .then((data) => {
+        console.log("Fetched question data:", data); 
         setQuestionData(data);
         setUserAnswer('');
       })
@@ -53,10 +54,20 @@ const QuizScreen = ({ level, questionIndex, onAnswer, onGameOver, initialQuestio
       return;
     }
 
-    const numericAnswer = parseFloat(userAnswer);
-    if (isNaN(numericAnswer)) {
-      alert('Please enter a valid number.');
+    const trimmed = userAnswer.trim();
+
+    if (!trimmed) {
+      alert('Please enter your answer.');
       return;
+    }
+
+    // Optional: validasi fraction
+    if (trimmed.includes('/')) {
+      const [num, denom] = trimmed.split('/');
+      if (isNaN(num) || isNaN(denom) || denom === '0') {
+        alert('Invalid fraction.');
+        return;
+      }
     }
 
     fetch('http://localhost:5000/answer', {
@@ -65,9 +76,10 @@ const QuizScreen = ({ level, questionIndex, onAnswer, onGameOver, initialQuestio
       body: JSON.stringify({
         level,
         index: questionIndex,
-        answer: numericAnswer,
+        answer: trimmed, // ✅ kirim mentah sebagai string (contoh: "16/35")
       }),
     })
+
       .then((res) => res.json())
       .then((data) => {
         if (data.result === 'correct') {
@@ -96,7 +108,7 @@ const QuizScreen = ({ level, questionIndex, onAnswer, onGameOver, initialQuestio
       )}
 
       <input
-        type="number"
+        type="text"
         value={userAnswer}
         onChange={(e) => setUserAnswer(e.target.value)}
         style={styles.input}

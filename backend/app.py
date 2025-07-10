@@ -1,6 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from questions import questions_by_level
+import questions  # ✅ import module-nya dulu
+print("[DEBUG] Using questions.py from:", questions.__file__)  # ✅ print path-nya
+from questions import questions_by_level  # lalu ambil datanya
+from fractions import Fraction
+
 
 app = Flask(__name__)
 CORS(app)
@@ -31,20 +35,41 @@ def home():
 
 @app.route("/question", methods=["GET"])
 def get_question():
+    print("[DEBUG] /question dipanggil")
     level_num = int(request.args.get("level"))
-    index = int(request.args.get("index", 0))
     level = level_map.get(level_num)
+    index = int(request.args.get("index", 0))
 
-    print(">> FETCHING:", level_num, level, index)  # ✅ log untuk memastikan
+    print(f"[DEBUG] Getting question: level={level_num} ({level}), index={index}")
 
-    if level in questions_by_level and index < len(questions_by_level[level]):
+    if level not in questions_by_level:
+        print("[DEBUG] Level not found in questions_by_level.")
         return jsonify({
-            "question": questions_by_level[level][index]["question"],
-            "questionNumber": index + 1,
-            "image": questions_by_level[level][index].get("image", "")
+            "error": "Invalid level",
+            "finalScore": index,
+            "highestLevel": level_num
+        }), 404
+
+    questions = questions_by_level[level]
+
+    if index < len(questions):
+        question_entry = questions[index]  # ✅ define question_entry here
+        return jsonify({
+            "image": question_entry.get("image", ""),  # 👈 pakai key 'image' agar cocok dengan React
+            "question": question_entry.get("question", ""),
+            "questionNumber": index + 1
         })
 
-    return jsonify({"error": "No question found"}), 404
+    else:
+        # Instead of error, return indicator to frontend to move to next level
+        print("[DEBUG] End of questions for this level reached.")
+        return jsonify({
+            "error": "End of level",
+            "finalScore": index,
+            "highestLevel": level_num
+        }), 200
+
+
 
 
 @app.route("/answer", methods=["POST"])
@@ -52,23 +77,32 @@ def check_answer():
     data = request.get_json()
     level_num = int(data.get("level"))
     level = level_map.get(level_num)
-
     index = int(data.get("index"))
-    user_answer = data.get("answer")
 
-    correct_answer = questions_by_level[level][index]["answer"]
-    is_correct = float(user_answer) == float(correct_answer)
+    user_answer_raw = str(data.get("answer")).strip()
+    correct_answer_raw = str(questions_by_level[level][index]["answer"]).strip()
+
+    print(f"[DEBUG] User input: '{user_answer_raw}', Correct answer: '{correct_answer_raw}'")
+
+    try:
+        # Gunakan Fraction agar bisa bandingkan angka seperti '16/35' atau hasil desimalnya
+        user_frac = Fraction(user_answer_raw)
+        correct_frac = Fraction(correct_answer_raw)
+        is_correct = user_frac == correct_frac
+    except (ValueError, ZeroDivisionError):
+        # Fallback jika bukan angka/fraction yang valid
+        is_correct = user_answer_raw.lower() == correct_answer_raw.lower()
 
     if is_correct:
         return jsonify({"result": "correct"})
     else:
         return jsonify({
             "result": "wrong",
-            "finalScore": index,  # atau bisa hitung pakai sistem kamu
+            "finalScore": index,
             "highestLevel": level_num
         })
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
 
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
