@@ -171,4 +171,88 @@ questions_by_level = {
             "image": "/static/img/4level25.png"
         },
     ],
+    "grade-11": [
+        {
+            "question": "solve for m",
+            "answer": "0,-34",
+            "image": "/static/img/5level26.png"
+        },
+        {
+            "question": "Write an equation of the parabola that passes through points (2,35), (1,10), and (-3,10)"
+                        "Write your answer in form y = ax^2 + bx + c",
+            "answer": "y = 5x^2 + 10x - 5",
+        },
+        {
+            "question": "Solvethe quadratic equation",
+            "answer": "-2+5i",
+            "image": "/static/img/5level27.png"
+        },
+        {
+            "question": "What is the domain of this function?",
+            "answer": "1",
+            "image": "/static/img/5level28.png"
+        },
+        {
+            "question": "Solve the system of equations by elimination",
+            "answer": "4,2,2",
+            "image": "/static/img/5level29.png"
+        },
+        
+    ],
+    "grade-12": [
+        {
+            "question": "Simplify your answer and write as an improper fraction",
+            "answer": "31/4",
+            "image": "/static/img/5level30.png"
+        },
+        {
+            "question": "",
+            "answer": "3",
+            "image": "/static/img/5level31.png"
+        },
+        {
+            "question": "cot(-90)",
+            "answer": "0",
+        },
+        {
+            "question": "Simplify your answer",
+            "answer": "8/15",
+            "image": "/static/img/5level32"
+        },
+        {
+            "question": "Simplify",
+            "answer": "1 + 15i",
+            "image": "/static/img/5level33"
+        },
+    ],
+    "college": [
+        {
+            "question": "Use the graph of f(x) to find the limit",
+            "answer": "6",
+            "image": "/static/img/5level34.png"
+        },
+        {
+            "question": "Simplify any fractions",
+            "answer": "69",
+            "image": "/static/img/5level35.png"
+        },
+        {
+            "question": "",
+            "answer": "-1/18",
+            "image": "/static/img/5level36.png"
+        },
+        {
+            "question": "The figures below are similar. The labeled sides are corresponding."
+                        "What is the perimeter for the smaller pentagon?",
+            "answer": "25.5",
+            "image": "/static/img/4level25.png"
+        },
+        {
+            "question": "The figures below are similar. The labeled sides are corresponding."
+                        "What is the perimeter for the smaller pentagon?",
+            "answer": "25.5",
+            "image": "/static/img/4level25.png"
+        },
+    ],
+    
 }

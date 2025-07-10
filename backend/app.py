@@ -85,12 +85,10 @@ def check_answer():
     print(f"[DEBUG] User input: '{user_answer_raw}', Correct answer: '{correct_answer_raw}'")
 
     try:
-        # Gunakan Fraction agar bisa bandingkan angka seperti '16/35' atau hasil desimalnya
         user_frac = Fraction(user_answer_raw)
         correct_frac = Fraction(correct_answer_raw)
         is_correct = user_frac == correct_frac
     except (ValueError, ZeroDivisionError):
-        # Fallback jika bukan angka/fraction yang valid
         is_correct = user_answer_raw.lower() == correct_answer_raw.lower()
 
     if is_correct:
