@@ -2,7 +2,7 @@ questions_by_level = {
     "pre-k": [
         {
             "question": "How many gorillas are there?",
-            "answer": "2/3",
+            "answer": "2",
             "image": "/static/img/1level1.png"
         }
     ],
@@ -179,7 +179,7 @@ questions_by_level = {
         },
         {
             "question": "Write an equation of the parabola that passes through points (2,35), (1,10), and (-3,10)"
-                        "Write your answer in form y = ax^2 + bx + c",
+                        " Write your answer in form y = ax^2 + bx + c",
             "answer": "y = 5x^2 + 10x - 5",
         },
         {
@@ -242,16 +242,14 @@ questions_by_level = {
             "image": "/static/img/5level36.png"
         },
         {
-            "question": "The figures below are similar. The labeled sides are corresponding."
-                        "What is the perimeter for the smaller pentagon?",
-            "answer": "25.5",
-            "image": "/static/img/4level25.png"
+            "question": "Find the derivative of f(x)",
+            "answer": "4x^3",
+            "image": "/static/img/5level37.png"
         },
         {
-            "question": "The figures below are similar. The labeled sides are corresponding."
-                        "What is the perimeter for the smaller pentagon?",
-            "answer": "25.5",
-            "image": "/static/img/4level25.png"
+            "question": "Evaluate the integral. Write an exact, simplified answer.",
+            "answer": "-288",
+            "image": "/static/img/5level38.png"
         },
     ],
     
