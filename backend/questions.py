@@ -98,7 +98,7 @@ questions_by_level = {
             "answer": "19",
         },
         {
-            "question": "Subtract.",
+            "question": "Multiply.",
             "answer": "16/35",
             "image": "/static/img/3level13.png"
         },
@@ -107,7 +107,7 @@ questions_by_level = {
         {
             "question": "Write your answer as a whole number",
             "answer": "-13.5",
-            "image": "/static/img/4level14.png"
+            "image": "/static/img/4leve14.png"
         },
         {
             "question": "Simplify. Only give the exponent:",
@@ -143,7 +143,7 @@ questions_by_level = {
         },
         {
             "question": "Solve",
-            "answer": "-2.8",
+            "answer": "-2,8",
             "image": "/static/img/4level21.png"
         },
     ],
